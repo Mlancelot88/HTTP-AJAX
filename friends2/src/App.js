@@ -1,5 +1,7 @@
-import React, { Component } from "react";
-import Friends from "./components/Friends";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Friends from './components/Friends';
+import AddFriendForm from './components/FriendsForm';
 
 class App extends Component {
   constructor() {
@@ -16,12 +18,28 @@ class App extends Component {
     };
   }
 
+  formChange = event => {
+    this.setState({
+      [`current${event.currentTarget.name}`]: event.currentTarget.value
+    });
+    console.log(event.currentTarget.value);
+  };
+
+  formSubmit = () => {};
+
+  addFriend(event) {}
+  componentDidMount() {
+    axios.get("http://localhost:5000/friends").then(response => {
+      this.setState({ friends: response.data });
+    });
+  }
+
   render() {
     return (
       <section className="App">
         <h1>Friends</h1>
-
-        <Friends />
+        <AddFriendForm formChange={this.formChange} />
+        <Friends friends={this.state.friends} />
       </section>
     );
   }
