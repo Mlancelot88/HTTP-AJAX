@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 const AddFriendForm = props => {
   return (
-    <form className="add-friend">
+    <form onSubmit={props.addFriend} className="add-friend">
       <input
         onChange={props.formChange}
         className="name"

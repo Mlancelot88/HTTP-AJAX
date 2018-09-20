@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Friends from './components/Friends';
-import AddFriendForm from './components/FriendsForm';
+import React, { Component } from "react";
+import axios from "axios";
+import Friend from "./components/Friend";
+import AddFriendForm from "./components/FriendsForm";
 
 class App extends Component {
   constructor() {
@@ -25,21 +25,28 @@ class App extends Component {
     console.log(event.currentTarget.value);
   };
 
-  formSubmit = () => {};
-
-  addFriend(event) {}
-  componentDidMount() {
-    axios.get("http://localhost:5000/friends").then(response => {
-      this.setState({ friends: response.data });
-    });
-  }
+  addFriend = event => {
+    event.preventDefault();
+    axios
+      .post("http://localhost:5000/friends", {
+        name: this.state.currentname,
+        age: this.state.currentage,
+        email: this.state.currentemail
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   render() {
     return (
       <section className="App">
         <h1>Friends</h1>
-        <AddFriendForm formChange={this.formChange} />
-        <Friends friends={this.state.friends} />
+        <AddFriendForm formChange={this.formChange} addFriend={this.addFriend}/>
+        <Friend friend={this.state.friend} />
       </section>
     );
   }
